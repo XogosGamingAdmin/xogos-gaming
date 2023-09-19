@@ -1,5 +1,4 @@
 <?php
-
 include './stripe-php-master/init.php';
 //require 'vendor/autoload.php';
 // This is your test secret API key.
