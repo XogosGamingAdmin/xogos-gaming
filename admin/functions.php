@@ -562,129 +562,129 @@ function update_kids_count(){
     return false;
 }
 
-function loginHistorical($data_array)
-{
-    $data = array(
-        "std_email" => $data_array['email'],
-        "std_pass" => $data_array['password']
-    );
-    // URL endpoint API
-    $url = 'https://timequest.huntthepast.com/colyseuss/login';
-    // Prepare Request
-    $ch = curl_init();
-    curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => json_encode($data),
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen(json_encode($data))
-        )
-    ));
-    // Execute Request
-    $response = curl_exec($ch);
-    $response = json_decode($response);
-    // Periksa apakah ada kesalahan dalam permintaan
-    if (curl_errno($ch)) {
-        echo 'Error: ' . curl_error($ch);
-    }
-    // Close Conn
-    curl_close($ch);
-    // Show Respon
-    $token = $response == null ? null : $response;
-    return $token;
-}
+// function loginHistorical($data_array)
+// {
+//     $data = array(
+//         "std_email" => $data_array['email'],
+//         "std_pass" => $data_array['password']
+//     );
+//     // URL endpoint API
+//     $url = 'https://timequest.huntthepast.com/colyseuss/login';
+//     // Prepare Request
+//     $ch = curl_init();
+//     curl_setopt_array($ch, array(
+//         CURLOPT_URL => $url,
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_CUSTOMREQUEST => "POST",
+//         CURLOPT_POSTFIELDS => json_encode($data),
+//         CURLOPT_HTTPHEADER => array(
+//             'Content-Type: application/json',
+//             'Content-Length: ' . strlen(json_encode($data))
+//         )
+//     ));
+//     // Execute Request
+//     $response = curl_exec($ch);
+//     $response = json_decode($response);
+//     // Periksa apakah ada kesalahan dalam permintaan
+//     if (curl_errno($ch)) {
+//         echo 'Error: ' . curl_error($ch);
+//     }
+//     // Close Conn
+//     curl_close($ch);
+//     // Show Respon
+//     $token = $response == null ? null : $response;
+//     return $token;
+// }
 
-function registerHistoricalStudent($data_array,$token)
-{
-    // Data to be sent in the request body
-    $data = array(
-        "std_name" => $data_array['name'],
-        "std_pass" => $data_array['password'],
-        "std_email" => $data_array['email'],
-        "img_url" => $data_array['img'],
-        "state_id" => "1",
-        "city_id" => "1",
-        "school_id" => "1",
-        "class_id" => 1,
-        "teacherId" => $data_array['teached_id']
-    );
+// function registerHistoricalStudent($data_array,$token)
+// {
+//     // Data to be sent in the request body
+//     $data = array(
+//         "std_name" => $data_array['name'],
+//         "std_pass" => $data_array['password'],
+//         "std_email" => $data_array['email'],
+//         "img_url" => $data_array['img'],
+//         "state_id" => "1",
+//         "city_id" => "1",
+//         "school_id" => "1",
+//         "class_id" => 1,
+//         "teacherId" => $data_array['teached_id']
+//     );
 
-    // Convert data to JSON format
-    $jsonData = json_encode($data);
+//     // Convert data to JSON format
+//     $jsonData = json_encode($data);
 
-    // API endpoint URL
-    $url = 'https://timequest.huntthepast.com/api/student';
+//     // API endpoint URL
+//     $url = 'https://timequest.huntthepast.com/api/student';
 
 
-    // Prepare the request
-    $ch = curl_init();
+//     // Prepare the request
+//     $ch = curl_init();
 
-    curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => $jsonData,
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            "Authorization: $token",
-            'Content-Length: ' . strlen($jsonData)
-        )
-    ));
+//     curl_setopt_array($ch, array(
+//         CURLOPT_URL => $url,
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_CUSTOMREQUEST => "POST",
+//         CURLOPT_POSTFIELDS => $jsonData,
+//         CURLOPT_HTTPHEADER => array(
+//             'Content-Type: application/json',
+//             "Authorization: $token",
+//             'Content-Length: ' . strlen($jsonData)
+//         )
+//     ));
 
-    // Execute the request and get the response
-    $response = curl_exec($ch);
+//     // Execute the request and get the response
+//     $response = curl_exec($ch);
 
-    // Check for errors in the request
-    if (curl_errno($ch)) {
-        echo 'Error: ' . curl_error($ch);
-    }
+//     // Check for errors in the request
+//     if (curl_errno($ch)) {
+//         echo 'Error: ' . curl_error($ch);
+//     }
 
-    // Close the connection
-    curl_close($ch);
+//     // Close the connection
+//     curl_close($ch);
 
-    // Display the API response
-    return json_decode($response);
-}
+//     // Display the API response
+//     return json_decode($response);
+// }
 
-function editHistoricalStudent($data_array, $accessToken)
-{
-    // Convert data to JSON format
-    $jsonData = json_encode($data_array);
+// function editHistoricalStudent($data_array, $accessToken)
+// {
+//     // Convert data to JSON format
+//     $jsonData = json_encode($data_array);
 
-    // API endpoint URL
-    $url = 'https://timequest.huntthepast.com/api/student';
+//     // API endpoint URL
+//     $url = 'https://timequest.huntthepast.com/api/student';
 
-    // Prepare the request
-    $ch = curl_init();
+//     // Prepare the request
+//     $ch = curl_init();
 
-    curl_setopt_array($ch, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => "PUT",
-        CURLOPT_POSTFIELDS => $jsonData,
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'token: ' . $accessToken,
-            'Content-Length: ' . strlen($jsonData)
-        )
-    ));
+//     curl_setopt_array($ch, array(
+//         CURLOPT_URL => $url,
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_CUSTOMREQUEST => "PUT",
+//         CURLOPT_POSTFIELDS => $jsonData,
+//         CURLOPT_HTTPHEADER => array(
+//             'Content-Type: application/json',
+//             'token: ' . $accessToken,
+//             'Content-Length: ' . strlen($jsonData)
+//         )
+//     ));
 
-    // Execute the request and get the response
-    $response = curl_exec($ch);
+//     // Execute the request and get the response
+//     $response = curl_exec($ch);
 
-    // Check for errors in the request
-    if (curl_errno($ch)) {
-        echo 'Error: ' . curl_error($ch);
-    }
+//     // Check for errors in the request
+//     if (curl_errno($ch)) {
+//         echo 'Error: ' . curl_error($ch);
+//     }
 
-    // Close the connection
-    curl_close($ch);
+//     // Close the connection
+//     curl_close($ch);
 
-    // Return the API response
-    return json_decode($response);
-}
+//     // Return the API response
+//     return json_decode($response);
+// }
 
 function register_lighting_round($data_array){
     $url = 'https://lightninground.rocks/api/register';
