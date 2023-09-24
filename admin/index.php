@@ -1,11 +1,11 @@
 <?php include "includes/header.php" ?>
 <?php
     // Historial API REGISTER STUDENT
-  $dataLogin = array(
-    "email" => "ali@gmail.com",
-    "password" => "1234"
-  );
-  $tokenHistorical = loginHistorical($dataLogin);
+  // $dataLogin = array(
+  //   "email" => "ali@gmail.com",
+  //   "password" => "1234"
+  // );
+  // $tokenHistorical = loginHistorical($dataLogin);
 ?>
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
