@@ -36,7 +36,7 @@
                             <td>3</td>
                             <td><img src="assets/img/time-quest.jpg" alt="" style="width:125px; height:auto;"></td>
                             <td>Time Quest</td>
-                            <td class='text-right'><a href='https://timequest.huntthepast.com/'>Play</a></td>
+                            <td class='text-right'><a href='https://timequest.huntthepast.com/?token=<?php echo $_SESSION['token_tq']; ?>'>Play</a></td>
                           </tr>
                 
                    </tbody>
