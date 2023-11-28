@@ -1,29 +1,29 @@
 <?php include "includes/header.php"; ?>
 
-<?php 
+<?php
 
-                    
-                    if(isset($_GET ['source'])) {
 
-                        $source = $_GET ['source'];
-                    } else {
-                        $source = ' ';
-                    }
+if (isset($_GET['source'])) {
 
-                    switch($source) {
+    $source = $_GET['source'];
+} else {
+    $source = ' ';
+}
 
-                        case 'add_student';
-                        include "includes/add_student.php";
-                        break;
+switch ($source) {
 
-                        case 'edit_student';
-                        include "includes/edit_student.php";
-                        break;
+    case 'add_student';
+        include "includes/add_student.php";
+        break;
 
-                        default:
-                        include "includes/all_students.php";
-                        break;
-                    }
-                    
-                    ?>
+    case 'edit_student';
+        include "includes/edit_student.php";
+        break;
+
+    default:
+        include "includes/all_students.php";
+        break;
+}
+
+?>
 <?php include "includes/footer.php" ?>

@@ -4,6 +4,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 require '../classes/config.php';
 require '../vendor/autoload.php';
 
@@ -34,11 +35,10 @@ if (isset($_POST['add_student'])) {
   $lastname         = $_POST['lastname'];
   $email            = $_POST['email'];
   $username         = str_replace(' ', '', strtolower($_POST['username'])); // convert to lowercase and remove spaces
-  $unhashedPassword = $_POST['password']; // Store the unhashed password
   $password         = password_hash($unhashedPassword, PASSWORD_BCRYPT, array('cost' => 12)); // Hash the password
   $city             = $_POST['city'];
   $state            = $_POST['state'];
-  $img              = $_POST['img'];
+  $img              = $_POST['img'] ?? 'image';
 
   $_SESSION['form_data'] = array(
     'firstname' => $firstname,
@@ -76,54 +76,54 @@ if (isset($_POST['add_student'])) {
       $state     = mysqli_real_escape_string($connection, $state);
 
       // generate token
-    $length = 50;
-    $token_e = bin2hex(openssl_random_pseudo_bytes($length));
-    $query .= "token = '{$token_e}', ";
+      $length = 50;
+      $token_e = bin2hex(openssl_random_pseudo_bytes($length));
+      $query .= "token = '{$token_e}', ";
 
-    // Send email notification using PHPMailer
-    $mail = new PHPMailer;
-    $mail->isSMTP();
-    $mail->Host = Config::SMTP_HOST;
-    $mail->Username = Config::SMTP_USER;
-    $mail->Password = Config::SMTP_PASSWORD;
-    $mail->Port = Config::SMTP_PORT;
-    $mail->SMTPSecure = 'tls';
-    $mail->SMTPAuth = true;
-    $mail->isHTML(true);
-    $mail->CharSet = 'UTF-8';
+      // Send email notification using PHPMailer
+      $mail = new PHPMailer;
+      $mail->isSMTP();
+      $mail->Host = Config::SMTP_HOST;
+      $mail->Username = Config::SMTP_USER;
+      $mail->Password = Config::SMTP_PASSWORD;
+      $mail->Port = Config::SMTP_PORT;
+      $mail->SMTPSecure = 'tls';
+      $mail->SMTPAuth = true;
+      $mail->isHTML(true);
+      $mail->CharSet = 'UTF-8';
 
-    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
-    $mail->addAddress('noreply.xogos@gmail.com');
-    $mail->Subject = 'New User Student';
-    $mail->Body = 'New account has been created.';
+      $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+      $mail->addAddress('noreply.xogos@gmail.com');
+      $mail->Subject = 'New User Student';
+      $mail->Body = 'New account has been created.';
 
-    if (!$mail->send()) {
+      if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
-    } else {
-    }
+      } else {
+      }
 
-    $mail->clearAddresses();
+      $mail->clearAddresses();
 
-    $email = $_POST['email'];
-    $mail->addAddress($email);
-    $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token_e . '">Verify Email</a></p>';
+      $email = $_POST['email'];
+      $mail->addAddress($email);
+      $mail->Subject = 'Welcome to XOGOS GAMING';
+      $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token_e . '">Verify Email</a></p>';
 
-    if (!$mail->send()) {
+      if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
-    } else {
-    }
+      } else {
+      }
 
-    $query  = "INSERT INTO users(firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
+      $query  = "INSERT INTO users(unhashed_pass, firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
+      $query .= "VALUES('{$unhashedPassword}','{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
 
-    // execute query
-    $register_teacher_query = mysqli_query($connection, $query);
-    if(!$register_teacher_query) {
-      die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
-    } else {
-      $success = true;
-    }
+      // execute query
+      $register_teacher_query = mysqli_query($connection, $query);
+      if (!$register_teacher_query) {
+        die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+      } else {
+        $success = true;
+      }
 
       $data_register_lightning_round = [
         'username' => $username,
@@ -136,32 +136,35 @@ if (isset($_POST['add_student'])) {
         'parent_id' => $_SESSION['parent_id']
       ];
       $token = register_lighting_round($data_register_lightning_round);
+      
+      $dataForTimeQst = [
+        'std_name' => $username . " " . $lastname,
+        'img_url' => $img ?? '',
+        'std_email' => $email,
+        'std_pass' => $unhashedPassword,
+      ];
 
-      // Historial API REGISTER STUDENT
-      // $dataLogin = array(
-      //   "email" => "ali@gmail.com",
-      //   "password" => "1234"
-      // );
+      $loginData = [
+        'email' => 'superadmin@gmail.com',
+        'password' => '1234'
+      ];
+      $loginResp = loginTimeQuestApi($loginData);
+      $timeQstLoginToken = $loginResp['token']['token'];
 
-      // $dataStudent = [
-      //   'name' => $username." ".$lastname,
-      //   'img' => $img,
-      //   'email' => $email,
-      //   'password' => $_POST['password'],
-      //   'country_id' => 1,
-      //   'parent_id' => $_SESSION['parent_id'],
-      //   'city_id' => $city,
-      //   'state_id' => $zip,
-      //   'teached_id' => $_SESSION['teacher_id']
-      // ];
+      registerTimeQuest($dataForTimeQst, $timeQstLoginToken);
 
-      // $tokenHistorical = loginHistorical($data);
-      // $responsepHistorial = registerHistoricalStudent($dataStudent,$tokenHistorical);
+      $studentLoginData = [
+        'std_email' => $email,
+        'std_pass' => $unhashedPassword
+      ];
 
-      $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
+      $stdLoginResp = loginStudentTimeQuest($studentLoginData);
+      $token_tq = $stdLoginResp['accessToken'];
+  
+      $query = "UPDATE users SET token_lr='{$token}', token_tq='$token_tq' WHERE username='{$username}'";
       $update = mysqli_query($connection, $query);
 
-      $message = "";
+      $message = "Student Added Successfully";
     }
   }
 }
@@ -218,46 +221,46 @@ if (isset($_POST['add_student'])) {
       </div>
       <div class="modal-body">
         <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
-        <div class="row">
-              <div class="">
-                <div class="form-group">
-                  <label>Select an avatar:</label>
-                  <div class="avatar-images">
-                          <label>
-                              <input type="radio" name="img" value="">
-                              <img src="./assets/img/avatars/avatar_1.png" alt="Avatar Image 1">
-                          </label>
-                          <label>
-                              <input type="radio" name="img" value="">
-                              <img src="./assets/img/avatars/avatar_2.png" alt="Avatar Image 2>">
-                          </label>
-                          <label>
-                              <input type="radio" name="img" value="">
-                              <img src="./assets/img/avatars/avatar_3.png" alt="Avatar Image 3">
-                          </label>
-                          <label>
-                              <input type="radio" name="img" value="">
-                              <img src="./assets/img/avatars/avatar_4.png" alt="Avatar Image 4">
-                          </label>
-                  </div>
+          <div class="row">
+            <div class="">
+              <div class="form-group">
+                <label>Select an avatar:</label>
+                <div class="avatar-images">
+                  <label>
+                    <input type="radio" name="img" value="">
+                    <img src="./assets/img/avatars/avatar_1.png" alt="Avatar Image 1">
+                  </label>
+                  <label>
+                    <input type="radio" name="img" value="">
+                    <img src="./assets/img/avatars/avatar_2.png" alt="Avatar Image 2>">
+                  </label>
+                  <label>
+                    <input type="radio" name="img" value="">
+                    <img src="./assets/img/avatars/avatar_3.png" alt="Avatar Image 3">
+                  </label>
+                  <label>
+                    <input type="radio" name="img" value="">
+                    <img src="./assets/img/avatars/avatar_4.png" alt="Avatar Image 4">
+                  </label>
+                </div>
               </div>
 
-              </div>
+            </div>
           </div>
 
           <div class="row">
-              <div class="">
-                <div class="form-group">
-                  <label>Upload your own avatar:</label>
-                  <div class="avatar-images">
-                          <label>
-                            <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
-                            <img id="previewImage" src="./assets/img/avatars/default-avatar.png" alt="Default Avatar Image">
-                        </label>
-                  </div>
+            <div class="">
+              <div class="form-group">
+                <label>Upload your own avatar:</label>
+                <div class="avatar-images">
+                  <label>
+                    <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
+                    <img id="previewImage" src="./assets/img/avatars/default-avatar.png" alt="Default Avatar Image">
+                  </label>
+                </div>
               </div>
 
-              </div>
+            </div>
           </div>
           <div class="form-row">
             <div class="col-md-6 mb-3">

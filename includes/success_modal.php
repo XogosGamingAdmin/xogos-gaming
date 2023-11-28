@@ -6,7 +6,7 @@
         <h5 class="modal-title" id="successModal">Registration Successful</h5>
       </div>
       <div class="modal-body">
-      <p>We just sent you an email with further instructions.</p>
+        <p>We just sent you an email with further instructions.</p>
       </div>
     </div>
   </div>

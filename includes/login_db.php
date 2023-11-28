@@ -4,10 +4,10 @@ include "../admin/functions.php"
 <?php session_start(); ?>
 
 
-<?php 
+<?php
 
 
-if(isset($_POST['login'])) {
+if (isset($_POST['login'])) {
 
   $username = $_POST['username'];
   $password = $_POST['password'];
@@ -18,11 +18,13 @@ if(isset($_POST['login'])) {
   $query = "SELECT * FROM users WHERE username = '{$username}' ";
   $select_user_query = mysqli_query($connection, $query);
 
-  if(!$select_user_query) {
-      die("QUERY FAILED" . mysqli_error($connection));
+  if (!$select_user_query) {
+    die("QUERY FAILED" . mysqli_error($connection));
   }
 
-  while($row = mysqli_fetch_array($select_user_query)) {
+  while ($row = mysqli_fetch_array($select_user_query)) {
+    $_SESSION['token_lr'] = $row['token_lr'];
+    $_SESSION['token_tq'] = $row['token_tq'];
 
     $db_user_id      = $row['user_id'];
     $db_parent_id    = $row['parent_id'];
@@ -41,43 +43,58 @@ if(isset($_POST['login'])) {
     $db_total_coins_lr  = $row['total_coins_lr'];
   }
 
-//   $password = crypt($password, $db_user_password);
 
-if (password_verify($password,$db_password)) {
+  //   $password = crypt($password, $db_user_password);
 
-  $_SESSION['user_id']      = $db_user_id;
-  $_SESSION['company']      = $db_company;
-  $_SESSION['username']     = $db_username;
-  $_SESSION['firstname']    = $db_firstname;
-  $_SESSION['lastname']     = $db_lastname;
-  $_SESSION['img']          = $db_img;
-  $_SESSION['user_role']    = $db_user_role;
-  $_SESSION['parent_id']    = $db_parent_id;
-  $_SESSION['teacher_id']   = $db_teacher_id;
-  $_SESSION['student_id']   = $db_student_id;
-  $_SESSION['t_student_id'] = $db_t_student_id;
-  $_SESSION['kids_count']   = $db_kids_count;
-  $_SESSION['total_coins_lr']  = $db_total_coins_lr;
-  $_SESSION['email']        = $db_email;
-  $data_array_login = [
-      'email'=>$db_email,
-      'password'=>$_POST['password'],
+  $stdLoginResp = null;
+
+  if (password_verify($password, $db_password)) {
+
+    $_SESSION['user_id']      = $db_user_id;
+    $_SESSION['company']      = $db_company;
+    $_SESSION['username']     = $db_username;
+    $_SESSION['firstname']    = $db_firstname;
+    $_SESSION['lastname']     = $db_lastname;
+    $_SESSION['img']          = $db_img;
+    $_SESSION['user_role']    = $db_user_role;
+    $_SESSION['parent_id']    = $db_parent_id;
+    $_SESSION['teacher_id']   = $db_teacher_id;
+    $_SESSION['student_id']   = $db_student_id;
+    $_SESSION['t_student_id'] = $db_t_student_id;
+    $_SESSION['kids_count']   = $db_kids_count;
+    $_SESSION['total_coins_lr']  = $db_total_coins_lr;
+    $_SESSION['email']        = $db_email;
+    // print_r($row);
+    // die;
+
+
+    $data_array_login = [
+      'email' => $db_email,
+      'password' => $_POST['password'],
     ];
-   
+
     $token = loginLightingRound($data_array_login);
-    $_SESSION['token_LR'] = $token;
-    $query="UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
-    $update= mysqli_query($connection, $query); 
+    $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
+    $update = mysqli_query($connection, $query);
+
+    $stdLoginResp = loginStudentTimeQuest($data_array_login);
+    // Convert the PHP array to JSON format
+    $stdLoginRespJSON = json_encode($stdLoginResp);
+
+    $student_login_data = [
+      'std_email' => $db_email,
+      'std_pass' => $_POST['password']
+    ];
+    $stdLoginResp = loginStudentTimeQuest($student_login_data);
+    $_SESSION['stdLoginResp'] = $stdLoginResp;
+
     confirm($update);
     header("Location: ../admin/index.php");
-
-} else {
+  } else {
     header("Location: login.php");
 
     $login_message = "Passwords don't match";
-}
-
-
+  }
 }
 
 ?>

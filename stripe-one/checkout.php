@@ -32,7 +32,7 @@
                 <li>Feature 3</li>
                 <li>Feature 4</li>
               </ul>
-              <form action="https://myxogos.com/stripe-one/checkout_1.php" method="POST">
+              <form action="http://localhost/xogos/stripe-one/checkout_1.php" method="POST">
               <button style="background: rgb(223,78,204);
               background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none; color: white;" type="submit" id="checkout-button" class="btn btn-lg btn-block btn-outline-primary">Add Kid</button>
               </form>

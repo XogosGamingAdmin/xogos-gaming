@@ -17355,7 +17355,8 @@ table.tablesorter thead tr .headerSortDown {
   max-height: calc(100vh - 705px);
   z-index: 4;
   position: relative;
-  overflow: auto;
+  /* overflow: auto !important; */
+  padding-bottom: 100px;
 }
 
 .sidebar .sidebar-wrapper .dropdown .dropdown-backdrop,

@@ -39,12 +39,12 @@
 </div>
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js"></script>
-<script src="assets/js/scripts.js"></script>
 <script src="assets/js/core/popper.min.js"></script>
 <script src="assets/js/core/bootstrap.min.js"></script>
 <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 <!--  Google Maps Plugin    -->
 <!-- Place this tag in your head or just before your close body tag. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <!-- Chart JS -->
 <script src="assets/js/plugins/chartjs.min.js"></script>
@@ -53,6 +53,7 @@
 <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
 <!-- <script src="assets/demo/demo.js"></script> -->
+<script src="assets/js/scripts.js"></script>
 
 
 <script>
@@ -87,7 +88,7 @@
   });
 </script>
 
-<?php if ($success) { ?>
+<?php if (isset($success)) { ?>
   <script>
     $(document).ready(function() {
       $('#successModalKids').modal('show');
@@ -95,7 +96,7 @@
   </script>
 <?php } ?>
 
-<?php if ($pass_modal) { ?>
+<?php if (isset($pass_modal)) { ?>
   <script>
     $(document).ready(function() {
       $('#passModal').modal('show');
@@ -258,20 +259,24 @@
   const customImgInput = document.querySelector('input[type="file"][name="img"]');
 
   // Add event listener to the custom image input
-  customImgInput.addEventListener('change', function() {
-    // Deselect all the avatar radios
-    avatarRadios.forEach(radio => {
-      radio.checked = false;
+  if (addEventListener) {
+    customImgInput?.addEventListener('change', function() {
+      // Deselect all the avatar radios
+      avatarRadios.forEach(radio => {
+        radio.checked = false;
+      });
     });
-  });
+  }
 
   // Add event listeners to the avatar radios
-  avatarRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-      // Remove the selected file from the custom image input
-      customImgInput.src = null;
+  if (avatarRadios) {
+    avatarRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        // Remove the selected file from the custom image input
+        customImgInput.src = null;
+      });
     });
-  });
+  }
 </script>
 
 

@@ -13,7 +13,8 @@ $kids_count = count_records(get_all_user_kids());
           <h4 class="card-title"> My Kids <?php echo $kids_count ?></h4>
           <!-- ADD KID MODAL -->
           <?php if(is_parent()): ?>
-            <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Kid</a>
+            <a href="register_kid.php" class="btn btn-primary">Add Kid</a>
+            <!-- <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Kid</a> -->
           <?php endif ?>
         </div>
         <div class="card-body">

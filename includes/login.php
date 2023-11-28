@@ -5,10 +5,11 @@
   body {
     background-color: #1E1E2E;
     font-family: "Poppins";
-    color:white;
+    color: white;
   }
 
-  h3, h5 {
+  h3,
+  h5 {
     font-weight: 300 !important;
   }
 
@@ -23,10 +24,10 @@
   }
 
   .form-label {
-    margin-top:0.5rem !important;
+    margin-top: 0.5rem !important;
   }
-
 </style>
+ 
 
 <section class="vh-100 gradient-custom">
   <div class="container py-5 h-100">
@@ -57,15 +58,15 @@
                 </div>
 
                 <div class="mt-4 pt-2">
-                <input style="background: rgb(223,78,204);
+                  <input style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="login" value="Login" />
-              </div>
-
-              <div class="row">
-                <div class="ml-auto mr-auto" style="margin-top: 0.5rem";>
-                  <a href="register.php">Or Register</a>
                 </div>
-              </div>
+
+                <div class="row">
+                  <div class="ml-auto mr-auto" style="margin-top: 0.5rem" ;>
+                    <a href="register.php">Or Register</a>
+                  </div>
+                </div>
               </div>
 
             </form>

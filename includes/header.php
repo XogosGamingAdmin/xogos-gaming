@@ -1,6 +1,12 @@
-<?php include "../admin/includes/db.php"; 
+<?php include "../admin/includes/db.php";
 
-$DOMAIN = "https://myxogos.com/"; ?>
+$base_url = (isset($_SERVER['HTTPS'])
+  && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+  . "://" . $_SERVER['HTTP_HOST'];
+
+
+$host = $base_url . ($_SERVER['HTTP_HOST'] == 'localhost' ? '/xogos' : '');
+$DOMAIN = $host; ?>
 <?php include "../admin/functions.php" ?>
 
 <!DOCTYPE html>

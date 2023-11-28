@@ -3,11 +3,17 @@
 include './stripe-php-master/init.php';
 //require 'vendor/autoload.php';
 // This is your test secret API key.
-\Stripe\Stripe::setApiKey('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');
+\Stripe\Stripe::setApiKey('sk_test_51MFr5cJaC8AzBwqG3jOV3po07OT6UBwZvZsPFqmQeRatLDdb8YVlUoyhsPJKiOtEkScHARyM39GtTZNxwyPtDywV00Cc0rWW51');
 
 header('Content-Type: application/json');
 
-$YOUR_DOMAIN = 'https://myxogos.com/stripe-one';
+$base_url = (isset($_SERVER['HTTPS'])
+  && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+  . "://" . $_SERVER['HTTP_HOST'];
+
+
+$domain_name = $base_url . ($_SERVER['HTTP_HOST'] == 'localhost' ? '/xogos' : '');
+$YOUR_DOMAIN = $domain_name . '/stripe-one';
 
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
