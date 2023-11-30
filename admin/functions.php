@@ -735,11 +735,11 @@ function registerTimeQuest($data, $token)
 
 function loginStudentTimeQuest($data)
 {
+ 
     $url = "https://timequest.huntthepast.com/colyseuss/login";
     $ch = curl_init($url);
-
     $data_string = json_encode($data);
-
+    
     curl_setopt_array($ch, array(
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
@@ -748,15 +748,19 @@ function loginStudentTimeQuest($data)
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data_string),
-        )
-    ));
-
+            )
+        ));
+        
     $response = curl_exec($ch);
+
+    $no_data_found = ($response == "username or password is incorrect");
+    if($no_data_found) {
+        return "no_data";
+    }
 
     if ($response === false) {
         echo 'Curl error: ' . curl_error($ch);
     } else {
-        // Check if the response is valid JSON
         $decoded_response = json_decode($response, true);
 
         if ($decoded_response === null && json_last_error() !== JSON_ERROR_NONE) {
@@ -765,7 +769,7 @@ function loginStudentTimeQuest($data)
             return $decoded_response;
         }
     }
-
+    
     curl_close($ch);
 }
 
