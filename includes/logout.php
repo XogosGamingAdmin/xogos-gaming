@@ -3,11 +3,11 @@ session_start();
 
 // Get the user session ID
 $user_id = session_id();
+ 
 
-// Include your database connection
 // Replace 'your_host', 'your_username', 'your_password', and 'your_database' with your actual database credentials
 
-$connection = mysqli_connect('localhost', 'root', '', 'xogos');
+$connection = mysqli_connect('localhost', 'admin', '52a6d848b3a02dec4792ba937d3a98f810a5b446af4da5d1', 'xogos');
 if (!$connection) {
     die('Database connection failed: ' . mysqli_connect_error());
 }
