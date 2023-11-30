@@ -1,4 +1,5 @@
-<?php include "../admin/includes/db.php";
+<?php
+include "../admin/includes/db.php";
 include "../admin/functions.php"
 ?>
 <?php session_start(); ?>
@@ -11,6 +12,7 @@ if (isset($_POST['login'])) {
 
   $username = $_POST['username'];
   $password = $_POST['password'];
+  $un_hashed = $password;
 
   $username = mysqli_real_escape_string($connection, $username);
   $password = mysqli_real_escape_string($connection, $password);
@@ -77,15 +79,38 @@ if (isset($_POST['login'])) {
     $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
     $update = mysqli_query($connection, $query);
 
-    $stdLoginResp = loginStudentTimeQuest($data_array_login);
-    // Convert the PHP array to JSON format
-    $stdLoginRespJSON = json_encode($stdLoginResp);
+    // $stdLoginResp = loginStudentTimeQuest($data_array_login);
+    // // Convert the PHP array to JSON format
+    // $stdLoginRespJSON = json_encode($stdLoginResp);
 
     $student_login_data = [
       'std_email' => $db_email,
       'std_pass' => $_POST['password']
     ];
+
+
     $stdLoginResp = loginStudentTimeQuest($student_login_data);
+
+    if ($stdLoginResp == 'no_data') {
+      $dataForTimeQst = [
+        'std_name' => $db_firstname . " " . $db_lastname,
+        'img_url' => $img ?? '',
+        'std_email' => $db_email,
+        'std_pass' => $un_hashed,
+      ];
+
+      $loginData = [
+        'email' => 'superadmin@gmail.com',
+        'password' => '1234'
+      ];
+      $loginResp = loginTimeQuestApi($loginData);
+      $timeQstLoginToken = $loginResp['token']['token'];
+
+      registerTimeQuest($dataForTimeQst, $timeQstLoginToken);
+    }
+
+    $stdLoginResp = loginStudentTimeQuest($student_login_data);
+    
     $_SESSION['stdLoginResp'] = $stdLoginResp;
 
     confirm($update);
