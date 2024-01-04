@@ -57,7 +57,7 @@
             </tr>
             <tr>
               <td class="text-center">3</td>
-              <td><a href='https://timequest.huntthepast.com/'>Time Quest</a></td>
+              <td><a href='https://timequest.rocks'>Time Quest</a></td>
               <td class="text-right">236</td>
             </tr>
           </tbody>
