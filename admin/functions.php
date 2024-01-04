@@ -657,7 +657,7 @@ function update_kids_count()
 
 function loginTimeQuestApi($data)
 {
-    $url = "https://timequest.huntthepast.com/api/login";
+    $url = "https://timequest.rocks/api/login";
     $ch = curl_init($url);
 
     $data_string = json_encode($data);
@@ -693,7 +693,7 @@ function loginTimeQuestApi($data)
 
 function registerTimeQuest($data, $token)
 {
-    $url = "https://timequest.huntthepast.com/api/student";
+    $url = "https://timequest.rocks/api/student";
     $ch = curl_init($url);
 
     
@@ -736,7 +736,7 @@ function registerTimeQuest($data, $token)
 function loginStudentTimeQuest($data)
 {
  
-    $url = "https://timequest.huntthepast.com/colyseuss/login";
+    $url = "https://timequest.rocks/colyseuss/login";
     $ch = curl_init($url);
     $data_string = json_encode($data);
     
@@ -792,7 +792,7 @@ function registerHistoricalStudent($data_array, $token)
     $jsonData = json_encode($data);
 
     // API endpoint URL
-    $url = 'https://timequest.huntthepast.com/api/student';
+    $url = 'https://timequest.rocks/api/student';
 
 
     // Prepare the request
@@ -831,7 +831,7 @@ function registerHistoricalStudent($data_array, $token)
 //     $jsonData = json_encode($data_array);
 
 //     // API endpoint URL
-//     $url = 'https://timequest.huntthepast.com/api/student';
+//     $url = 'https://timequest.rocks/api/student';
 
 //     // Prepare the request
 //     $ch = curl_init();
