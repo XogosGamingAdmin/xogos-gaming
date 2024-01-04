@@ -12,7 +12,7 @@
 
 <script>
   const stdLoginResp = <?php echo json_encode($_SESSION['stdLoginResp']); ?>;
-  console.log(stdLoginResp);
+
   const data = {
     id: stdLoginResp.std_id,
     name: stdLoginResp.std_name,
@@ -21,16 +21,14 @@
     accessToken: stdLoginResp.accessToken,
     refreshToken: stdLoginResp.refreshToken
   };
-
-  if (localStorage.getItem('userData')) {
-    localStorage.clear('userData');
-  }
-
+  
   localStorage.setItem('userData', JSON.stringify(data));
+
 </script>
 
 <!-- End Navbar -->
-<div class="content">
+<div class="content"> 
+
   <div class="row">
     <?php include "includes/coins.php" ?>
 
