@@ -17,7 +17,7 @@
           <tbody>
             <tr>
               <td class="text-center">1</td>
-              <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
+              <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_lr']; ?>'>Lightning Round</a></td>
               <?php
               $username = $_SESSION['username'];
               $query = "SELECT CASE WHEN SUM( gd.game_time ) IS NULL THEN 0 ELSE SUM( gd.game_time )  END AS total_time_lr  FROM gamedata gd JOIN ( SELECT username, MAX( update_at ) AS last_update  FROM gamedata  WHERE YEAR ( update_at ) = 2023 AND username = '".$username."' GROUP BY username  ) last_updates ON gd.username = last_updates.username AND gd.update_at = last_updates.last_update";
@@ -37,7 +37,11 @@
             </tr>
             <tr>
               <td class="text-center">3</td>
-              <td><a href='https://timequest.huntthepast.com/'>Time Quest</a></td>
+              <?php 
+                    $jsonData = $_SESSION['stdLoginResp'];
+                    $accessTOken = $jsonData['accessToken'];
+                  ?>
+              <td><a href='https://timequest.rocks?session=<?= $accessTOken ?>'>Time Quest</a></td>
               <td class="text-right">236</td>
             </tr>
           </tbody>
