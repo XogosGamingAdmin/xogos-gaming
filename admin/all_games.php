@@ -36,7 +36,11 @@
                   <td>3</td>
                   <td><img src="assets/img/time-quest.jpg" alt="" style="width:125px; height:auto;"></td>
                   <td>Time Quest</td>
-                  <td class='text-right'><a href='https://timequest.huntthepast.com?token=<?= $_SESSION['token_tq'] ?>'>Play</a></td>
+                  <?php 
+                    $jsonData = $_SESSION['stdLoginResp'];
+                    $accessTOken = $jsonData['accessToken'];
+                  ?>
+                  <td class='text-right'><a href='https://timequest.rocks?session=<?= $accessTOken ?>'>Play</a></td>
                 </tr>
 
               </tbody>
