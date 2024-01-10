@@ -32,7 +32,7 @@
             </tr>
             <tr>
               <td class="text-center">2</td>
-              <td><a href='http://historicalconquest.aden.digital/public/web/'>Historical Conquest</a></td>
+              <td><a href='https://historicalconquestdigital-w7j7e.ondigitalocean.app/'>Historical Conquest</a></td>
               <td class="text-right">402</td>
             </tr>
             <tr>
