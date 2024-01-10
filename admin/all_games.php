@@ -30,7 +30,7 @@
                   <td>2</td>
                   <td><img src="assets/img/historical-conquest.jpg" alt="" style="width:125px; height:auto;"></td>
                   <td>Historical Conquest</td>
-                  <td class='text-right'><a href='http://historicalconquest.aden.digital/public/web/'>Play</a></td>
+                  <td class='text-right'><a href='https://historicalconquestdigital-w7j7e.ondigitalocean.app/'>Play</a></td>
                 </tr>
                 <tr>
                   <td>3</td>
