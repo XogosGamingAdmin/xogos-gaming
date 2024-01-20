@@ -2,7 +2,7 @@
 
 if (isset($_POST['add_student'])) {
 
-  $firstname = escpae($_POST['firstname']);
+  $firstname = escape($_POST['firstname']);
   $lastname  = escape($_POST['lastname']);
   $email     = escape($_POST['email']);
   $username  = escape($_POST['username']);
@@ -19,7 +19,6 @@ if (isset($_POST['add_student'])) {
 
 
   if (!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password)) {
-
     $firstname = mysqli_real_escape_string($connection, $firstname);
     $lastname  = mysqli_real_escape_string($connection, $lastname);
     $email     = mysqli_real_escape_string($connection, $email);
@@ -28,7 +27,6 @@ if (isset($_POST['add_student'])) {
     $address   = mysqli_real_escape_string($connection, $address);
     $city      = mysqli_real_escape_string($connection, $city);
     $zip       = mysqli_real_escape_string($connection, $zip);
-
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, t_student_id, student_id, user_role) ";

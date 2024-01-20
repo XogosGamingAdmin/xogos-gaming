@@ -43,6 +43,7 @@ if (isset($_POST['login'])) {
     $db_kids_count   = $row['kids_count'];
     $db_email        = $row['email'];
     $db_total_coins_lr  = $row['total_coins_lr'];
+    $un_hashed  = $row['unhashed_pass'];
   }
 
 
@@ -76,6 +77,7 @@ if (isset($_POST['login'])) {
     ];
 
     $token = loginLightingRound($data_array_login);
+    $_SESSION['token_lr'] = $token;
     $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
     $update = mysqli_query($connection, $query);
 
@@ -85,7 +87,7 @@ if (isset($_POST['login'])) {
 
     $student_login_data = [
       'std_email' => $db_email,
-      'std_pass' => $_POST['password']
+      'std_pass' => $un_hashed
     ];
 
 
@@ -107,9 +109,9 @@ if (isset($_POST['login'])) {
       $timeQstLoginToken = $loginResp['token']['token'];
 
       registerTimeQuest($dataForTimeQst, $timeQstLoginToken);
+      $stdLoginResp = loginStudentTimeQuest($student_login_data);
     }
 
-    $stdLoginResp = loginStudentTimeQuest($student_login_data);
     
     $_SESSION['stdLoginResp'] = $stdLoginResp;
 

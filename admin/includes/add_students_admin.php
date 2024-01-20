@@ -130,8 +130,8 @@ if (isset($_POST['add_student'])) {
         'first_name' => $firstname,
         'last_name' => $lastname,
         'email' => $email,
-        'password' => $_POST['password'],
-        'password_confirmation' => $_POST['password'],
+        'password' => $unhashedPassword,
+        'password_confirmation' => $unhashedPassword,
         'country_id' => 1,
         'parent_id' => $_SESSION['parent_id']
       ];
