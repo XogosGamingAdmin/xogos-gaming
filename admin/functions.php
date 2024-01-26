@@ -276,6 +276,7 @@ function slug($text)
 
     return $text;
 }
+
 function GetShortUrl($url)
 {
     global $connection;
@@ -296,6 +297,7 @@ function GetShortUrl($url)
         }
     }
 }
+
 function generateUniqueID()
 {
     global $connection;
@@ -570,18 +572,18 @@ function users_online()
 {
     global $connection;
 
-    $session                 = session_id();
-    $time                    = time();
-    $online_id               = $_SESSION['user_id'];
-    $online_parent_id        = $_SESSION['parent_id'];
-    $online_student_id       = $_SESSION['student_id'];
-    $online_teacher_id       = $_SESSION['teacher_id'];
-    $online_t_student_id     = $_SESSION['t_student_id'];
-    $online_firstname        = $_SESSION['firstname'];
-    $online_img              = $_SESSION['img'];
-    $online_user_role        = $_SESSION['user_role'];
-    $time_out_in_seconds     = 60;
-    $time_out                = $time - $time_out_in_seconds;
+    $session = session_id();
+    $time = time();
+    $online_id = $_SESSION['user_id'];
+    $online_parent_id = $_SESSION['parent_id'];
+    $online_student_id = $_SESSION['student_id'];
+    $online_teacher_id = $_SESSION['teacher_id'];
+    $online_t_student_id = $_SESSION['t_student_id'];
+    $online_firstname = $_SESSION['firstname'];
+    $online_img = $_SESSION['img'];
+    $online_user_role = $_SESSION['user_role'];
+    $time_out_in_seconds = 60;
+    $time_out = $time - $time_out_in_seconds;
 
     $query = "DELETE FROM users_online WHERE users_online.online_id = '" . $online_id . "'";
     mysqli_query($connection, $query);
@@ -605,11 +607,6 @@ function users_online()
     $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND (online_id != $online_id)");
     return $count_user = mysqli_num_rows($users_online_query);
 }
-
-
-
-
-
 
 
 function print_users_online()
@@ -696,13 +693,13 @@ function registerTimeQuest($data, $token)
     $url = "https://timequest.rocks/api/student";
     $ch = curl_init($url);
 
-    
-    if(strlen(trim($data['img_url'])) == 0) {
+
+    if (strlen(trim($data['img_url'])) == 0) {
         $data['img_url'] = 'image';
     }
-    
+
     $data_string = json_encode($data);
-    
+
     curl_setopt_array($ch, array(
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
@@ -711,7 +708,7 @@ function registerTimeQuest($data, $token)
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data_string),
-            'token: ' . $token  
+            'token: ' . $token
         )
     ));
 
@@ -735,11 +732,11 @@ function registerTimeQuest($data, $token)
 
 function loginStudentTimeQuest($data)
 {
- 
+
     $url = "https://timequest.rocks/colyseuss/login";
     $ch = curl_init($url);
     $data_string = json_encode($data);
-    
+
     curl_setopt_array($ch, array(
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
@@ -748,13 +745,13 @@ function loginStudentTimeQuest($data)
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data_string),
-            )
-        ));
-        
+        )
+    ));
+
     $response = curl_exec($ch);
 
     $no_data_found = ($response == "username or password is incorrect");
-    if($no_data_found) {
+    if ($no_data_found) {
         return "no_data";
     }
 
@@ -769,7 +766,7 @@ function loginStudentTimeQuest($data)
             return $decoded_response;
         }
     }
-    
+
     curl_close($ch);
 }
 
@@ -880,6 +877,7 @@ function register_lighting_round($data_array)
         return json_decode($resp)->content->token;
     }
 }
+
 function deleteUserFromLightningRound($data_array)
 {
     $url = 'https://lightninground.rocks/api/removeAccount';
@@ -916,6 +914,7 @@ function loginLightingRound($data_array)
         return json_decode($resp)->content->token;
     }
 }
+
 function editInfoLightingRound($data_array)
 {
     $url = 'https://lightninground.rocks/api/updateInfoKids';
@@ -1058,4 +1057,12 @@ function checkInactivity($timeoutMinutes, $redirectUrl)
     }
 
     $_SESSION['last_activity'] = time();
+}
+
+function getUrl()
+{
+    return sprintf("%s://%s/admin/",
+        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+        $_SERVER['SERVER_NAME']
+    );
 }

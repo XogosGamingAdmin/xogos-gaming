@@ -38,7 +38,7 @@
                   <td>Time Quest</td>
                   <?php 
                     $jsonData = $_SESSION['stdLoginResp'];
-                    $accessTOken = $jsonData['accessToken'];
+                    $accessTOken = isset($jsonData['accessToken'])?$jsonData['accessToken']:'';
                   ?>
                   <td class='text-right'><a href='https://timequest.rocks?session=<?= $accessTOken ?>'>Play</a></td>
                 </tr>

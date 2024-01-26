@@ -87,16 +87,17 @@ if (isset($_POST['login'])) {
 
     $student_login_data = [
       'std_email' => $db_email,
-      'std_pass' => $un_hashed
+      'std_pass' => $un_hashed,
+      'img_url' => $db_img ?$db_img:'',
     ];
 
-
+//var_dump($student_login_data);
     $stdLoginResp = loginStudentTimeQuest($student_login_data);
-
+//    var_dump($stdLoginResp);die;
     if ($stdLoginResp == 'no_data') {
       $dataForTimeQst = [
         'std_name' => $db_firstname . " " . $db_lastname,
-        'img_url' => $img ?? '',
+        'img_url' => $db_img ?$db_img:'',
         'std_email' => $db_email,
         'std_pass' => $un_hashed,
       ];
@@ -112,7 +113,7 @@ if (isset($_POST['login'])) {
       $stdLoginResp = loginStudentTimeQuest($student_login_data);
     }
 
-    
+
     $_SESSION['stdLoginResp'] = $stdLoginResp;
 
     confirm($update);

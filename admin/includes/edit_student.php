@@ -42,10 +42,12 @@ if (isset($_POST['edit_student'])) {
   $verified  = escape($_POST['verified']);
   $active    = escape($_POST['active']);
 
-  $img      = $_FILES['img']['name'];
-  $img_temp = $_FILES['img']['tmp_name'];
-
-  move_uploaded_file($img_temp, "./assets/img/avatars/$img");
+    $img = '';
+    if (isset($_FILES['img']['name'])) {
+        $img = $_FILES['img']['name'];
+        $img_temp = $_FILES['img']['tmp_name'];
+        move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
+    }
 
   if (empty($img)) {
 
