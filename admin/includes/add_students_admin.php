@@ -118,8 +118,8 @@ if (isset($_POST['add_student'])) {
             } else {
             }
 
-            $query = "INSERT INTO users(unhashed_pass, firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
-            $query .= "VALUES('{$unhashedPassword}','{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
+            $query = "INSERT INTO users(unhashed_pass, firstname, lastname, img, email, username, password, city, state, parent_id, user_role, token) ";
+            $query .= "VALUES('{$unhashedPassword}','{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
 
             // execute query
             $register_teacher_query = mysqli_query($connection, $query);
