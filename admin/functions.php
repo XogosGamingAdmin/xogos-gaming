@@ -1059,10 +1059,9 @@ function checkInactivity($timeoutMinutes, $redirectUrl)
     $_SESSION['last_activity'] = time();
 }
 
-function getUrl()
+function getUrl($string='')
 {
-    return sprintf("%s://%s/admin/",
-        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-        $_SERVER['SERVER_NAME']
+    return sprintf("%s://%s/%s",isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+        $_SERVER['SERVER_NAME'],$string
     );
 }

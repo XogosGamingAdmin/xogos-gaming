@@ -67,7 +67,7 @@ if (isset($_POST['add_student'])) {
 
         $dataForTimeQst = [
             'std_name' => $username . " " . $lastname,
-            'img_url' => $img ? $img : '',
+            'img_url' => $img ? getUrl('admin/assets/img/avatars/'.$img) : '',
             'std_email' => $email,
             'std_pass' => $unhashedPassword,
         ];
