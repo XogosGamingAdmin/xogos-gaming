@@ -1059,9 +1059,50 @@ function checkInactivity($timeoutMinutes, $redirectUrl)
     $_SESSION['last_activity'] = time();
 }
 
-function getUrl($string='')
-{
-    return sprintf("%s://%s/%s",isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-        $_SERVER['SERVER_NAME'],$string
-    );
+function getUrl($path = '') {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http';
+    $serverName = $_SERVER['SERVER_NAME'];
+    $folderName = $_SERVER['SERVER_NAME'] === 'localhost' ? '/xogos-gaming' : '';
+    $path = ltrim($path, '/');
+    return sprintf("%s://%s%s/%s", $protocol, $serverName, $folderName, $path);
+}
+
+function updateProfile($firstName, $lastName, $imgUrl) {
+    $endpoint = "https://timequest.rocks/api/update/profile";
+    
+    $data = json_encode(array(
+        "firstName" => $firstName,
+        "lastName" => $lastName,
+        "img_url" => $imgUrl ? getUrl('admin/assets/img/avatars/'. $imgUrl) : 'image.png'
+    ));
+
+    $curl = curl_init($endpoint);
+
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => "PUT",
+        CURLOPT_POSTFIELDS => $data,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data)
+        )
+    ));
+
+    $response = curl_exec($curl);
+
+    if(curl_errno($curl)) {
+        $error_msg = curl_error($curl);
+        echo "CURL Error: " . $error_msg;
+    } else {
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        
+        if ($http_status === 200) {
+            $decoded_response = json_decode($response, true);
+            print_r($decoded_response);
+        } else {
+            echo "Error: Unexpected HTTP response code - $http_status";
+        }
+    }
+
+    curl_close($curl);
 }

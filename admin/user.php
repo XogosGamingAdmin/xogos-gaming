@@ -101,6 +101,7 @@ if (isset($_POST['edit_user'])) {
         $edit_user_query = mysqli_query($connection, $query);
 
         confirm($edit_user_query);
+        updateProfile($firstname, $lastname, $img);
 
         $message = "Profile Updated!";
         update_kids_count();
