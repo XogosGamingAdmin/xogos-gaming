@@ -7,13 +7,7 @@ include './stripe-php-master/init.php';
 
 header('Content-Type: application/json');
 
-$base_url = (isset($_SERVER['HTTPS'])
-  && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
-  . "://" . $_SERVER['HTTP_HOST'];
-
-
-$domain_name = $base_url . ($_SERVER['HTTP_HOST'] == 'localhost' ? '/xogos' : '');
-$YOUR_DOMAIN = $domain_name . '/stripe-one';
+$YOUR_DOMAIN = 'https://myxogos.com/admin';
 
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
