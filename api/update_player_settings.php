@@ -7,7 +7,7 @@ include "../admin/includes/db.php";
 
 // Check if the user is authenticated
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(["error" => "User is not authenticated. Please login."]);
+    echo json_encode(["error" => "User is not authenticated. Please login."], JSON_PRETTY_PRINT);
     exit; // Stop the script execution if the user is not authenticated
 }
 
@@ -38,10 +38,12 @@ if ($checkStmt = $connection->prepare($checkQuery)) {
         if ($insertStmt = $connection->prepare($insertQuery)) {
             $insertStmt->bind_param("iiiiis", $userId, $playerBanner, $audioVol, $wins, $losses, $ownedSet);
             $insertStmt->execute();
-            echo json_encode(["success" => "User settings added successfully.", "params" => $decoded]);
+            // Decode ownedSet before including it in the response
+            $decodedOwnedSet = json_decode($ownedSet);
+            echo json_encode(["success" => "User settings added successfully.", "params" => array_merge($decoded, ['ownedSet' => $decodedOwnedSet])], JSON_PRETTY_PRINT);
             $insertStmt->close();
         } else {
-            echo json_encode(["error" => "Error preparing insert query: " . $connection->error]);
+            echo json_encode(["error" => "Error preparing insert query: " . $connection->error], JSON_PRETTY_PRINT);
         }
     } else {
         // Update the existing user's settings
@@ -49,15 +51,17 @@ if ($checkStmt = $connection->prepare($checkQuery)) {
         if ($updateStmt = $connection->prepare($updateQuery)) {
             $updateStmt->bind_param("iiiiis", $playerBanner, $audioVol, $wins, $losses, $ownedSet, $userId);
             $updateStmt->execute();
-            echo json_encode(["success" => "User settings updated successfully.", "params" => $decoded]);
+            // Decode ownedSet before including it in the response
+            $decodedOwnedSet = json_decode($ownedSet);
+            echo json_encode(["success" => "User settings updated successfully.", "params" => array_merge($decoded, ['ownedSet' => $decodedOwnedSet])], JSON_PRETTY_PRINT);
             $updateStmt->close();
         } else {
-            echo json_encode(["error" => "Error preparing update query: " . $connection->error]);
+            echo json_encode(["error" => "Error preparing update query: " . $connection->error], JSON_PRETTY_PRINT);
         }
     }
     $checkStmt->close();
 } else {
-    echo json_encode(["error" => "Error checking user existence: " . $connection->error]);
+    echo json_encode(["error" => "Error checking user existence: " . $connection->error], JSON_PRETTY_PRINT);
 }
 
 // Close the database connection
