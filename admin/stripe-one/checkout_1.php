@@ -16,8 +16,8 @@ $checkout_session = \Stripe\Checkout\Session::create([
     'quantity' => 1,
   ]],
   'mode' => 'subscription',
-  'success_url' => $YOUR_DOMAIN . '/success.php',
-  'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+  'success_url' => $YOUR_DOMAIN . '/stripe-one/success.php',
+  'cancel_url' => $YOUR_DOMAIN . '/stripe-one/cancel.html',
   'automatic_tax' => [
     'enabled' => true,
   ],
