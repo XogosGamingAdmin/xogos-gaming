@@ -3,7 +3,7 @@
 include './stripe-php-master/init.php';
 //require 'vendor/autoload.php';
 // This is your test secret API key.
-\Stripe\Stripe::setApiKey('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');
+\Stripe\Stripe::setApiKey('sk_test_51MKQt5ES8UEWC6xggaSZd8zK6yFN5RnARHjj7Q0hwOoePDlqTaR64v7GEAldkDTzbakTNznag64xni46T08I0usX00okIdhCVr');
 
 header('Content-Type: application/json');
 
