@@ -12,7 +12,7 @@ $YOUR_DOMAIN = 'https://myxogos.com';
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-    'price' => 'price_1OpZ71IryzBLFRCst69baxyz',
+    'price' => 'price_1OpPjOES8UEWC6xgc1y6NRJy',
     'quantity' => 1,
   ]],
   'mode' => 'subscription',
