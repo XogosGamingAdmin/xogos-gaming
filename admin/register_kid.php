@@ -157,8 +157,8 @@ if (isset($_POST['add_student'])) {
                     } else {
                     }
 
-                    $query = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token) ";
-                    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token_e}' ) ";
+                    $query = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token, unhashed_pass) ";
+                    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token_e}', '{$unhashedPassword}' ) ";
 
                     // execute query
                     $register_student_query = mysqli_query($connection, $query);
