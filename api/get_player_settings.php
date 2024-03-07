@@ -27,7 +27,6 @@ if ($selectStmt = $connection->prepare($selectQuery)) {
         $row['ownedSet'] = json_decode($row['ownedSet']);
         // Wrap the success message in its own object
         $response = [
-            "success" => ["message" => "User data retrieved successfully."], // Changed this line
             "data" => $row
         ];
         echo json_encode($response, JSON_PRETTY_PRINT);
