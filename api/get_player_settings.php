@@ -25,7 +25,12 @@ if ($selectStmt = $connection->prepare($selectQuery)) {
     if ($row = $result->fetch_assoc()) {
         // Decode the ownedSet before including it in the response
         $row['ownedSet'] = json_decode($row['ownedSet']);
-        echo json_encode(["success" => "User data retrieved successfully.", "data" => $row], JSON_PRETTY_PRINT);
+        // Wrap the success message in its own object
+        $response = [
+            "success" => ["message" => "User data retrieved successfully."], // Changed this line
+            "data" => $row
+        ];
+        echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
         // User data not found
         echo json_encode(["error" => "User data not found."], JSON_PRETTY_PRINT);
