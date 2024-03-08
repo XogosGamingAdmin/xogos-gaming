@@ -390,7 +390,7 @@ if (isset($_POST['add_student'])) {
                             include "success_modal_kids.php";
                             unset($_SESSION['success_msg']);
                         }
-                        // include "pass_modal.php";
+                        include "pass_modal.php";
                         ?>
 
 
