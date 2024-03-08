@@ -81,9 +81,9 @@ if (isset($_POST['add_student'])) {
         } else {
 
             // check password strength
-            if (!check_password_strength($password)) {
-                $pass_modal = true;
-            } else {
+            // if (!check_password_strength($password)) {
+            //     $pass_modal = true;
+            // } else {
 
                 // check if username and email already exist
                 $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
@@ -221,7 +221,7 @@ if (isset($_POST['add_student'])) {
                     $update = mysqli_query($connection, $query);
 
                     $_SESSION['success_msg'] = 'Student added successfully';
-                }
+                
             }
         }
     }
