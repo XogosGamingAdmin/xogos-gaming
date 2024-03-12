@@ -1,6 +1,7 @@
 <?php
 // Include database connection
 include "../admin/includes/db.php";
+include "cors.php";
 
 // Start or resume a session
 session_start();
