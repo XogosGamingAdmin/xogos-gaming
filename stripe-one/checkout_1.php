@@ -3,7 +3,7 @@
 include './stripe-php-master/init.php';
 //require 'vendor/autoload.php';
 // This is your test secret API key.
-\Stripe\Stripe::setApiKey('sk_test_51MKQt5ES8UEWC6xggaSZd8zK6yFN5RnARHjj7Q0hwOoePDlqTaR64v7GEAldkDTzbakTNznag64xni46T08I0usX00okIdhCVr');
+\Stripe\Stripe::setApiKey('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');
 
 header('Content-Type: application/json');
 
@@ -12,7 +12,7 @@ $YOUR_DOMAIN = 'https://myxogos.com';
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-    'price' => 'price_1OpPjOES8UEWC6xgc1y6NRJy',
+    'price' => 'price_1OpZ71IryzBLFRCst69baNTV',
     'quantity' => 1,
   ]],
   'mode' => 'subscription',
