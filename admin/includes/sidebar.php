@@ -102,6 +102,14 @@
             </a>
           </li>
         <?php endif ?>
+        <?php if (is_teacher() or is_student() or is_parent() or is_admin()) : ?>
+          <li>
+            <a href="friends.php">
+              <i class="tim-icons icon-satisfied"></i>
+              <p>Friends</p>
+            </a>
+          </li>
+        <?php endif ?>
         <?php if (is_contractor()) : ?>
           <li>
             <a href="my_games.php">
@@ -113,7 +121,7 @@
         <?php if (is_teacher() or is_student() or is_parent() or is_admin()) : ?>
           <li>
             <a href="chat.php">
-              <i class="tim-icons icon-single-02"></i>
+              <i class="tim-icons icon-chat-33"></i>
               <p>Chat</p>
             </a>
           </li>
