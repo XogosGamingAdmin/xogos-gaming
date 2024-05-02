@@ -16,6 +16,7 @@ if (isset($_GET['profile'])) {
         WHERE
             a.expire > NOW() 
             AND a.url = '$profile'";
+    var_dump($query);die;
     $result =  mysqli_query($connection, $query);
     if (mysqli_num_rows($result) == 0) {
         $message = 'Invalid Link Profile';
