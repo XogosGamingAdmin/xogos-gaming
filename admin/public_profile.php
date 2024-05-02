@@ -12,11 +12,10 @@ if (isset($_GET['profile'])) {
         CONCAT( b.firstname, ' ', b.lastname ) AS full_name
         FROM
             users_url a
-            LEFT JOIN USERS b ON a.user_id = b.user_id 
+            LEFT JOIN users b ON a.user_id = b.user_id 
         WHERE
             a.expire > NOW() 
             AND a.url = '$profile'";
-    var_dump($query);die;
     $result =  mysqli_query($connection, $query);
     if (mysqli_num_rows($result) == 0) {
         $message = 'Invalid Link Profile';
