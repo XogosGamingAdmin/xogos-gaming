@@ -54,6 +54,7 @@
 <script src="assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
 <!-- <script src="assets/demo/demo.js"></script> -->
 <script src="assets/js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 
 <script>
@@ -277,6 +278,48 @@
       });
     });
   }
+</script>
+
+<script>
+  $(document).ready(function() {
+
+    $('#generateButton').click(function() {
+
+      const today = new Date();
+
+      // Tambahkan satu hari
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+
+      // Format tanggal ke "Y-m-d H:i:s"
+      const formattedDate = tomorrow.getFullYear() + "-" +
+        ("0" + (tomorrow.getMonth() + 1)).slice(-2) + "-" +
+        ("0" + tomorrow.getDate()).slice(-2) + " " +
+        ("0" + tomorrow.getHours()).slice(-2) + ":" +
+        ("0" + tomorrow.getMinutes()).slice(-2) + ":" +
+        ("0" + tomorrow.getSeconds()).slice(-2);
+
+      const url = '<?= $_SESSION['username'] ?>' + formattedDate;
+      console.log(url);
+      const hash = CryptoJS.MD5(url).toString();
+      $('#url').val("<?= getServerName() . '/admin/public_profile.php?profile=' ?>" + hash);
+      $('#expire').val(formattedDate);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+
+    $('#copyButton').click(function() {
+      var input = document.getElementById('url');
+      // Pilih teks dalam input form
+      input.select();
+      // Copy teks ke clipboard
+      document.execCommand("copy");
+      alert("The link has been copied. Please save it.");
+
+    });
+  });
 </script>
 
 

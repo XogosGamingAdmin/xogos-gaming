@@ -19,6 +19,7 @@ if (isset($_POST['login'])) {
 
   $query = "SELECT * FROM users WHERE username = '{$username}' ";
   $select_user_query = mysqli_query($connection, $query);
+  
 
   if (!$select_user_query) {
     die("QUERY FAILED" . mysqli_error($connection));
@@ -52,7 +53,6 @@ if (isset($_POST['login'])) {
   $stdLoginResp = null;
 
   if (password_verify($password, $db_password)) {
-
     $_SESSION['user_id']      = $db_user_id;
     $_SESSION['company']      = $db_company;
     $_SESSION['username']     = $db_username;
@@ -118,6 +118,8 @@ if (isset($_POST['login'])) {
     confirm($update);
     header("Location: ../admin/index.php");
   } else {
+    $_SESSION['flash']['status'] = 'danger';
+    $_SESSION['flash']['message'] = 'Incorrect username or password. Please try again.';
     header("Location: login.php");
 
     $login_message = "Passwords don't match";

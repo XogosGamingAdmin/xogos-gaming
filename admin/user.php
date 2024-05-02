@@ -12,12 +12,11 @@ if (isset($_SESSION['user_id'])) {
 
     $the_user_id = $_SESSION['user_id'];
 
-    $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+    $query = "SELECT a.*,b.url,b.expire FROM users a LEFT JOIN users_url b ON a.user_id = b.user_id WHERE a.user_id = '{$the_user_id}'";
 
     $select_user_profile_query = mysqli_query($connection, $query);
 
     while ($row = mysqli_fetch_array($select_user_profile_query)) {
-
         $user_id = $row['user_id'];
         $parent_id = $row['parent_id'];
         $teacher_id = $row['teacher_id'];
@@ -33,6 +32,8 @@ if (isset($_SESSION['user_id'])) {
         $city = $row['city'];
         $zip = $row['zip'];
         $state = $row['state'];
+        $url = $row['url'] ? getServerName().'/admin/public_profile.php?profile='.$row['url'] : '';
+        $expire = $row['expire'];
 
 
     }
@@ -68,6 +69,25 @@ if (isset($_POST['edit_user'])) {
             $img = $row['img'];
 
         }
+    }
+    if($_POST['url'] != ''){
+        $sql = "SELECT * FROM users_url where user_id =".$_SESSION['user_id'];
+        $queryUser = mysqli_query($connection, $sql);
+        $user_url = mysqli_fetch_object($queryUser);
+        $url = $_POST['url'];
+        $parseUrl = parse_url($url, PHP_URL_QUERY); // Mendapatkan bagian query string dari URL
+        parse_str($parseUrl, $params); // Mengurai query string menjadi array
+
+        $id = $params['profile'];
+        if(mysqli_num_rows($queryUser) > 0){
+            $sql2 = "UPDATE users_url SET url = '$id',expire='".$_POST['expire']."' where id=".$user_url->id;
+            // var_dump($sql2);die;
+            mysqli_query($connection, $sql2);
+        }else{
+            $sql3 = "INSERT INTO users_url (id,user_id,url,expire) VALUES (null,'".$_SESSION['user_id']."','$id','".$_POST['expire']."')";
+            mysqli_query($connection, $sql3);
+        }
+        
     }
     $_SESSION['img'] = $img;
     if (!empty($password)) {
@@ -296,6 +316,26 @@ if (isset($_POST['edit_user'])) {
                                 <input type="password" name="password" class="form-control" id="validationCustom02" value="<?php echo $password; ?>" required>
                             </div>
                         </div>
+                        <?php if (is_student()): ?>
+                        <h5 class="mt-4 pb-2 pb-md-0 mb-md-5">Public Profile URL</h5>
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom01">URL</label>
+                                <input type="text" name="url" class="form-control" id="url" value="<?=$url?>" readonly>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="validationCustom02">Valid until</label>
+                                <input type="text" name="expire" class="form-control" id="expire" value="<?=$expire?>" readonly>
+                            </div>
+                            <div class="col-md-4 mb-3 ">
+                                <input type="button" class="btn btn-primary btn-m text-white mt-4" style="background: rgb(223,78,204);
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" value='Generate' id="generateButton">
+                            </div>
+                            <div class="col-md-4 mb-3 ">
+                                <input type="button" class="btn btn-warning btn-m text-white" value='Copy' id="copyButton">
+                            </div>
+                        </div>
+                        <?php endif;?>
                         <input style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;"
                                class="btn btn-primary btn" type="submit" name="edit_user" value="Update">

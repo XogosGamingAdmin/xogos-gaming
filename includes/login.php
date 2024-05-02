@@ -35,9 +35,18 @@
       <div class="col-12 col-lg-9 col-xl-7" style="padding-bottom: 50px;">
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px; border:solid 1px; border-color: #C153ED; background-color: #27293D">
           <div class="card-body p-4 p-md-5">
+            <?php 
+              if(isset($_SESSION['flash'])){
+            ?>
+            <div class="alert alert-<?=$_SESSION['flash']['status']?>">
+              <span><?=$_SESSION['flash']['message']?></span>
+            </div>
+            <?php
+                unset($_SESSION['flash']);
+              }
+            ?>
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Login</h3>
             <form method="post" action="login_db.php">
-
               <div class="row">
                 <div class="col-md-12 mb-4">
 
