@@ -68,7 +68,7 @@ if (isset($_GET['profile']) && isset($_GET['confirm'])) {
     if ($confirm == '1') {
         $user_id    = $user->user_id;
         $friend_id  = $_SESSION['user_id'];
-        $sqq = "INSERT INTO FRIENDS_LIST (id,user_id,friend_id,status) VALUES (null,'$user_id','$friend_id',0)";
+        $sqq = "INSERT INTO friends_list (id,user_id,friend_id,status) VALUES (null,'$user_id','$friend_id',0)";
         $addFriends = mysqli_query($connection, $sqq);
         $_SESSION['flash']['status'] = 'success';
         $_SESSION['flash']['message'] = 'you have successfully sent a request to ' . $user->full_name;
