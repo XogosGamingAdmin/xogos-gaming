@@ -7,7 +7,7 @@
 if (isset($_GET['confirm']) && isset($_GET['friend'])) {
   $friend_id = $_GET['friend'];
   $confirm = $_GET['confirm'];
-  $query = "UPDATE friends_list SET status = $confirm WHERE user_id = '" . $_SESSION['user_id'] . "' AND friend_id = '$friend_id'";
+  $query = "UPDATE friends_list SET status = $confirm WHERE id = '$friend_id'";
   $delete_query = mysqli_query($connection, $query);
   header("Location: friends.php");
 }
