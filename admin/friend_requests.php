@@ -39,8 +39,8 @@ $friends =  mysqli_query($connection, $sql);
                     <tr>
                       <td><img src="assets/img/avatars/avatar_4.png" alt="" style="width:50px; height:auto;"></td>
                       <td><?= ucwords($fr['fullname']) ?></td>
-                      <td class='text-right'><a href="friend_requests.php?confirm=1&friend=<?= $fr['friend_id'] ?>">Approve</a></td>
-                      <td class='text-right'><a href="friend_requests.php?confirm=2&friend=<?= $fr['friend_id'] ?>">Deny</a></td>
+                      <td class='text-right'><a href="friend_requests.php?confirm=1&friend=<?= $fr['id'] ?>">Approve</a></td>
+                      <td class='text-right'><a href="friend_requests.php?confirm=2&friend=<?= $fr['id'] ?>">Deny</a></td>
 
                     </tr>
                   <?php }; ?>
