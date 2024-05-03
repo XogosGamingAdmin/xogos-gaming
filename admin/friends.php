@@ -9,7 +9,7 @@ if (isset($_GET['delete'])) {
     $delete_query = mysqli_query($connection, $query);
     header("Location: friends.php");
 }
-$sql = "SELECT a.*,a.friend_id,CONCAT(b.firstname, ' ', b.lastname) AS fullname,b.img FROM friends_list a left join users b ON a.friend_id = b.user_id where a.user_id = '" . $_SESSION['user_id'] . "' AND a.status = 1";
+$sql = "SELECT a.*,a.friend_id,CONCAT(b.firstname, ' ', b.lastname) AS fullname,b.img FROM friends_list a left join users b ON CASE WHEN a.user_id = '" . $_SESSION['user_id'] . "' THEN a.friend_id = b.user_id WHEN a.friend_id = '". $_SESSION['user_id'] ."' THEN a.user_id = b.user_id  END where a.user_id = '" . $_SESSION['user_id'] . "' or a.friend_id = '". $_SESSION['user_id'] ."'  AND a.status = 1";
 $friends =  mysqli_query($connection, $sql);
 ?>
 
