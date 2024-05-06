@@ -131,6 +131,27 @@ if (isset($_POST['edit_user'])) {
 
     }
 
+} elseif(isset($_POST['generate'])){
+    if($_POST['url'] != ''){
+        $sql = "SELECT * FROM users_url where user_id =".$_SESSION['user_id'];
+        $queryUser = mysqli_query($connection, $sql);
+        $user_url = mysqli_fetch_object($queryUser);
+        $url = $_POST['url'];
+        $parseUrl = parse_url($url, PHP_URL_QUERY); // Mendapatkan bagian query string dari URL
+        parse_str($parseUrl, $params); // Mengurai query string menjadi array
+
+        $id = $params['profile'];
+        if(mysqli_num_rows($queryUser) > 0){
+            $sql2 = "UPDATE users_url SET url = '$id',expire='".$_POST['expire']."' where id=".$user_url->id;
+            // var_dump($sql2);die;
+            mysqli_query($connection, $sql2);
+        }else{
+            $sql3 = "INSERT INTO users_url (id,user_id,url,expire) VALUES (null,'".$_SESSION['user_id']."','$id','".$_POST['expire']."')";
+            mysqli_query($connection, $sql3);
+        }
+        $message = "Generate Link Successfull";
+        
+    }
 } else {
 
     $message = "";
@@ -328,8 +349,8 @@ if (isset($_POST['edit_user'])) {
                                 <input type="text" name="expire" class="form-control" id="expire" value="<?=$expire?>" readonly>
                             </div>
                             <div class="col-md-4 mb-3 ">
-                                <input type="button" class="btn btn-primary btn-m text-white mt-4" style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" value='Generate' id="generateButton">
+                                <input type="submit" class="btn btn-primary btn-m text-white mt-4" style="background: rgb(223,78,204);
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" name="generate" value='Generate' id="generateButton">
                             </div>
                             <div class="col-md-4 mb-3 ">
                                 <input type="button" class="btn btn-warning btn-m text-white" value='Copy' id="copyButton">

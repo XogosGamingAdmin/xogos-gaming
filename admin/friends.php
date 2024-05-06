@@ -9,7 +9,7 @@ if (isset($_GET['delete'])) {
     $delete_query = mysqli_query($connection, $query);
     header("Location: friends.php");
 }
-$sql = "SELECT a.*,a.friend_id,CONCAT(b.firstname, ' ', b.lastname) AS fullname,b.img FROM friends_list a left join users b ON CASE WHEN a.user_id = '" . $_SESSION['user_id'] . "' THEN a.friend_id = b.user_id WHEN a.friend_id = '". $_SESSION['user_id'] ."' THEN a.user_id = b.user_id  END where (a.user_id = '" . $_SESSION['user_id'] . "' or a.friend_id = '". $_SESSION['user_id'] ."')  AND a.status = 1";
+$sql = "SELECT a.*,CONCAT(b.firstname, ' ', b.lastname) AS fullname,b.img FROM friends_list a left join users b ON CASE WHEN a.user_id = '" . $_SESSION['user_id'] . "' THEN a.friend_id = b.user_id WHEN a.friend_id = '". $_SESSION['user_id'] ."' THEN a.user_id = b.user_id  END where (a.user_id = '" . $_SESSION['user_id'] . "' or a.friend_id = '". $_SESSION['user_id'] ."')  AND a.status = 1";
 $friends =  mysqli_query($connection, $sql);
 ?>
 
@@ -51,7 +51,11 @@ $friends =  mysqli_query($connection, $sql);
                                         <tr>
                                             <td><img src="assets/img/avatars/avatar_4.png" alt="" style="width:50px; height:auto;"></td>
                                             <td><?= ucwords($fr['fullname']) ?></td>
-                                            <td class='text-right'><a href="friends.php?delete=<?= $fr['friend_id'] ?>">Remove</a></td>
+                                            <td class='text-right'>
+                                                <?php if($_SESSION['user_id'] == $fr['user_id']): ?>
+                                                <a href="friends.php?delete=<?= $fr['friend_id'] ?>" onclick="return confirm('Are you sure you want to remove this friend?')">Remove</a>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php }; ?>
                                 <?php } else {; ?>
