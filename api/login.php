@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Prepare data for response
                 $response = [
+                    'user_id' => $user['user_id'],
                     'username' => $user['username'],
                     'firstname' => $user['firstname'],
                     'lastname' => $user['lastname'],
